@@ -15,27 +15,27 @@ class DataReader:
         df_raw = pandas.read_excel(self.abs_file_path,sheet_name=98, usecols='A:F') #skiprows=1
         data = []
 
-        location = df_raw["SHARKastics Marine Debris"][0].split(" ")[1]
+        col1 = df_raw.iloc[:,0]
+
+        location = col1[0].split(" ")[1]
         weatherlist = self.findWeatherList(df_raw)
         date = df_raw.iloc[:,3][0]
-
-        col1name = df_raw.columns[0]
 
         for ind in df_raw.index:
             if ind != 0 and ind != 1:       # because of the inconsistent way in which types serve as headers over items, it's difficult to avoid this messy regex cell by cell IF hell.
                 #column 1
-                if re.match(r'^FOAM fragments:', df_raw["SHARKastics Marine Debris"][ind]): # can be replaced by df.columns for inferential reference
+                if re.match(r'^FOAM fragments:', col1[ind]):
                     item = "Foam Fragment"
                     
-                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item))
+                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
                     """data.append([location,
                     weatherlist, 
                     df_raw["Unnamed: 3"][0], 
                     self.category(item), "N/A", item, 
                     int(re.findall(r'\d+', df_raw["SHARKastics Marine Debris"][ind])[0])])"""
 
-                elif re.match(r'^Plastic fragments', df_raw["SHARKastics Marine Debris"][ind]):
-                    if "hard" in df_raw["SHARKastics Marine Debris"][ind]:   
+                elif re.match(r'^Plastic fragments', col1[ind]):
+                    if "hard" in col1[ind]:   
                         item = "Hard Plastic Fragment"
 
                         data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
@@ -48,7 +48,7 @@ class DataReader:
                         item = "Plastic Film"
                         data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
                 
-                elif re.match(r'^Food wrappers:', df_raw["SHARKastics Marine Debris"][ind]):
+                elif re.match(r'^Food wrappers:', col1[ind]):
                     item = "Food Wrappers"
                     data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
                     """data.append([location,    # location
@@ -66,55 +66,71 @@ class DataReader:
                     item = "Food Packaging"
                     data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
 
-                elif re.match(r'^Beverage bottles', df_raw["SHARKastics Marine Debris"][ind]):
+                elif re.match(r'^Beverage bottles', col1[ind]):
                     item = "Beverage Bottles"
                     data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
 
-                elif re.match(r'^Cleaning bottles:', df_raw["SHARKastics Marine Debris"][ind]):  
+                elif re.match(r'^Cleaning bottles:', col1[ind]):  
                     item = "Cleaning Bottles"
+                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
 
-                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item))
-
-                elif re.match(r'^Fishing containers/packaging:', df_raw["SHARKastics Marine Debris"][ind]):  
+                elif re.match(r'^Fishing containers/packaging:', col1[ind]):  
                     item = "Fishing Containers/Packaging"
                     data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
 
-                elif re.match(r'^Bottle or container caps/lids', df_raw["SHARKastics Marine Debris"][ind]):  
+                elif re.match(r'^Bottle or container caps/lids', col1[ind]):  
                     item = "Bottle/Container Caps, Lids"
                     data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
-
                 
-                elif re.match(r'^Cigarettes', df_raw["SHARKastics Marine Debris"][ind]):
+                elif re.match(r'^Cigarettes', col1[ind]):
                     item = "Cigarettes/Filters/Cigars"
-                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item))
+                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
                 
+                elif re.match(r'^Cigarette lighters', col1[ind]):
+                    item = "Cigarette Lighters"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
                 
+                elif re.match(r'^6 pack rings', col1[ind]):
+                    item = "6 Pack Rings"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+                
+                elif re.match(r'^Bags', col1[ind]):
+                    item = "Bags"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Plastic rope/small net pieces ', col1[ind]):
+                    item = "Plastic Rope/Small Net Pieces"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Buoys and floats', col1[ind]):
+                    item = "Buoys, Floats"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
 
                 #column 2
                 try:
                     if re.match(r'^food-related:', df_raw.iloc[:,1][ind]):      #.iloc is an alternate way to reference the column
                         item = "Food-Related Foam Fragment"
-                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item))
+                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
 
                     elif re.match(r'^oil bottles:', df_raw.iloc[:,1][ind]):  
                         item = "Oil Bottles"
-                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item))
+                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
                     
                     elif re.match(r'^cigar tips:', df_raw.iloc[:,1][ind]):  
                         item = "Cigar Tips"
-                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item))
+                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
 
                 except:
                     pass
         #print(df_raw)
         df_cleaned = pandas.DataFrame(self.clearListsInLoL(data))
-        #df_cleaned.to_excel(os.path.join(self.script_dir,'cleanedoutput.xlsx'))
+        df_cleaned.to_excel(os.path.join(self.script_dir,'cleanedoutput.xlsx'))
         print(data)
     
-    def numInSameCell(self, inputDF, rowIndex, location, date, weatherlist, item):
+    def numInSameCell(self, inputDF, rowIndex, location, date, weatherlist, item, column):
         return [location, weatherlist, date,
             self.category(item), self.subCategory(item), item, 
-            int(re.findall(r'\d+', inputDF.iloc[:,0][rowIndex])[0])]
+            int(re.findall(r'\d+', inputDF.iloc[:,column][rowIndex])[0])]
 
     def numInThirdCell(self, inputDF, rowIndex, location, date, weatherlist, item):
         return [location, weatherlist, date, 
@@ -125,7 +141,7 @@ class DataReader:
         itemNumberList = re.findall(r'\d+', inputDF.iloc[:,0][rowIndex])
         return [location, weatherlist, date, 
             self.category(item), self.subCategory(item), item, 
-            itemNumberList[i]]
+            int(itemNumberList[i])]
 
     def findWeatherList(self, inputDF):
         weather = inputDF.columns[1].split(" ")
