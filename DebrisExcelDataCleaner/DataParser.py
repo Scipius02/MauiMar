@@ -98,12 +98,28 @@ class DataReader:
                     item = "Bags"
                     data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
 
-                elif re.match(r'^Plastic rope/small net pieces ', col1[ind]):
+                elif re.match(r'^Plastic rope/small net pieces', col1[ind]):
                     item = "Plastic Rope/Small Net Pieces"
                     data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
 
                 elif re.match(r'^Buoys and floats', col1[ind]):
                     item = "Buoys, Floats"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Fishing lures', col1[ind]):
+                    item = "Fishing Lures"
+                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
+                
+                elif re.match(r'^Cup:', col1[ind]):
+                    item = "Cups"
+                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
+
+                elif re.match(r'^Plastic utensils', col1[ind]):
+                    item = "Plastic Utensils"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Straws', col1[ind]):
+                    item = "Straws"
                     data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
 
                 #column 2
@@ -123,10 +139,13 @@ class DataReader:
                 except:
                     pass
         #print(df_raw)
-        df_cleaned = pandas.DataFrame(self.clearListsInLoL(data))
-        df_cleaned.to_excel(os.path.join(self.script_dir,'cleanedoutput.xlsx'))
         print(data)
+        return data
     
+    def exportDFtoExcel(self, listOfListsData, i):
+        df_cleaned = pandas.DataFrame(self.clearListsInLoL(listOfListsData))
+        df_cleaned.to_excel(os.path.join(self.script_dir,f"cleanedoutput{i}.xlsx"))
+
     def numInSameCell(self, inputDF, rowIndex, location, date, weatherlist, item, column):
         return [location, weatherlist, date,
             self.category(item), self.subCategory(item), item, 
@@ -230,4 +249,5 @@ class DataReader:
 
 
 newSheet = DataReader()
-newSheet.readin()
+data = newSheet.readin()
+#newSheet.exportDFtoExcel(data, 1)
