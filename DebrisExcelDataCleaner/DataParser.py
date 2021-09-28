@@ -410,7 +410,43 @@ class DataReader:
         else:
             return "N/A"
 
+    #remove all whitespace, flip toggle when sees number, flip off when non number, then add all previous chars and numbers into list? then if the list is 1) only string, check third column, 2) string and number, add number, 3) multiple strings and numbers, split then add
+    """def autoSort(self, inputDF):     # maybe there is a pattern after all? strip all whitespace, then strip every time you see a number except for 6 pack, tyres, and popsicle sticks?
+        for row in df_raw.index:
+            for jColumn in range(0,5):  #column0 = df_raw.iloc[:,0]
+                if row != 0 and row != 1: """
+                    
 
-newSheet = DataReader()
-data = newSheet.readin()
-newSheet.exportDFtoExcel(data, 1)
+#newSheet = DataReader()
+#data = newSheet.readin()
+#newSheet.exportDFtoExcel(data, 1)
+
+def autoSort():
+    tempList = [["FOAM fragments:  85", ""], ["Plastic fragments (hard)", 5000], ["Food wrappers:    58          Food packaging: 79"]]
+    flag = 0
+    tempItemName = ""
+    tempItemNumber = ""
+    newList = []
+
+    for subList in tempList:
+        subList[0] = subList[0].replace(" ", "")
+        #print(subList)
+        for letter in subList[0]:
+            if letter in "0123456789":
+                flag = 1
+                tempItemNumber += letter
+            else:
+                #print(letter)
+                if flag == 1:
+                    flag = 0
+                    newList.append([tempItemName, int(tempItemNumber)])
+                    tempItemName, tempItemNumber = "", ""
+                tempItemName += letter
+        if tempItemName != "" and tempItemNumber == "":
+            tempItemNumber = subList[1]
+            newList.append([tempItemName, int(tempItemNumber)])
+            tempItemName, tempItemNumber = "", ""
+
+    print(newList)
+
+autoSort()
