@@ -122,6 +122,145 @@ class DataReader:
                     item = "Straws"
                     data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
 
+                elif re.match(r'^Balloons', col1[ind]):
+                    item = "Balloons"
+                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
+                
+                elif re.match(r'^Sanitary:', col1[ind]):
+                    item = "Sanitary"
+                    data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
+
+                    item = "Diapers"
+                    data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
+
+                    item = "First Aid"
+                    data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 3))
+
+                    item = "Personal Care"
+                    data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 4))
+                
+                elif "Toothbrush" in col1[ind]:
+                    item = "Toothbrushes"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif "Combs" in col1[ind]:
+                    item = "Combs/Brushes"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.search(r'\bSHARKASTICS\b', col1[ind]):
+                    item = "SHARKASTICS"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Oyster spacer  Small', col1[ind]):
+                    item = "Oyster spacer (small)"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Oyster spacer  Large', col1[ind]):
+                    item = "Oyster spacer (large)"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Hagfish traps', col1[ind]):
+                    item = "Hagfish Traps"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Strapping bands', col1[ind]):
+                    item = "Strapping Bands"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Weed whacker pieces', col1[ind]):
+                    item = "Weed Whacker Pieces"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Zipties', col1[ind]):
+                    item = "Zipties"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Irrigation tubing', col1[ind]):
+                    item = "Irrigation Tubing/Parts"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Toys', col1[ind]):
+                    item = "Toys (plastic only)"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Firecracker remnants', col1[ind]):
+                    item = "Firecracker Remnants"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Duct tape pieces', col1[ind]):
+                    item = "Duct Tape Pieces"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Golf balls', col1[ind]):
+                    item = "Golf Balls"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Christmas tree parts/ornaments', col1[ind]):
+                    item = "Christmas Tree Parts/Ornaments"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Pens/markers/pencils', col1[ind]):
+                    item = "Pens/Markers/Pencils"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Melted plastic', col1[ind]):
+                    item = "Melted Plastic"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Snorkel/dive/surf/kayak/camping gear', col1[ind]):
+                    item = "Outdoor Sports Gear"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^DVD/cd/cassette/records', col1[ind]):
+                    item = "DVD/CD/Cassette/Records"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Spools', col1[ind]):
+                    item = "Spools"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Popsicle', col1[ind]):
+                    item = "Popsicle Sticks"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Shotgun', col1[ind]):
+                    item = "Shotgun Shells"
+                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
+
+                elif re.match(r'^Linoleum', col1[ind]):
+                    item = "Linoleum"
+                    data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
+
+                elif re.match(r'^Gardening pots/trays', col1[ind]):
+                    item = "Gardening Pots/Trays"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Crates/trays:', col1[ind]):
+                    item = "Crates/Trays"
+                    data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
+
+                    item = "Large Drums/Jugs"
+                    data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
+
+                elif re.match(r'^Auto parts', col1[ind]):
+                    item = "Auto Parts"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Shipping Tags', col1[ind]):
+                    item = "Shipping Tags"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
+                elif re.match(r'^Drug:', col1[ind]):
+                    item = "Drug"
+                    data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 0))
+
+                    item = "Personal Stuff"
+                    data.append(self.multiItemInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
+
+                elif re.match(r'^Misc. household items', col1[ind]):
+                    item = "Misc. Household Items"
+                    data.append(self.numInThirdCell(df_raw, ind, location, date, weatherlist, item))
+
                 #column 2
                 try:
                     if re.match(r'^food-related:', df_raw.iloc[:,1][ind]):      #.iloc is an alternate way to reference the column
@@ -134,6 +273,30 @@ class DataReader:
                     
                     elif re.match(r'^cigar tips:', df_raw.iloc[:,1][ind]):  
                         item = "Cigar Tips"
+                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
+
+                    elif re.match(r'^line:', df_raw.iloc[:,1][ind]):  
+                        item = "Line"
+                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
+
+                    elif re.match(r'^plates:', df_raw.iloc[:,1][ind]):  
+                        item = "Plates"
+                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
+
+                    elif re.match(r'^ribbons:', df_raw.iloc[:,1][ind]):  
+                        item = "Ribbons"
+                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
+
+                    elif re.match(r'^Lightsticks:', df_raw.iloc[:,1][ind]):  
+                        item = "Lightsticks"
+                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
+
+                    elif re.match(r'^Vinyl:', df_raw.iloc[:,1][ind]):  
+                        item = "Vinyl"
+                        data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
+
+                    elif re.match(r'^ pet stuff:', df_raw.iloc[:,1][ind]):  
+                        item = "Pet Stuff"
                         data.append(self.numInSameCell(df_raw, ind, location, date, weatherlist, item, 1))
 
                 except:
@@ -187,7 +350,7 @@ class DataReader:
             "Cigarettes/Filters/Cigars", "Cigar Tips", "Cigarette Lighters", "6 Pack Rings", 
             "Bags", "Plastic Rope/Small Net Pieces", "Buoys, Floats", "Fishing Lures", "Line", 
             "Cups", "Plates", "Plastic Utensils", "Straws", "Balloons", "Ribbons", "Sanitary", 
-            "Diapers", "First Aid", "Personal Care", "Toothbrushes", "Combs/Brushs", "SHARKASTICS", "Oyster spacer (small)", 
+            "Diapers", "First Aid", "Personal Care", "Toothbrushes", "Combs/Brushes", "SHARKASTICS", "Oyster spacer (small)", 
             "Oyster spacer (large)", "Hagfish Traps", "Strapping Bands", "Weed Whacker Pieces", "Zipties", "Irrigation Tubing/Parts", 
             "Toys (plastic only)", "Firecracker Remnants", "Duct Tape Pieces", "Golf Balls", "Christmas Tree Parts/Ornaments", 
             "Pens/Markers/Pencils", "Melted Plastic", "Outdoor Sports Gear", "DVD/CD/Cassette/Records", 
@@ -250,4 +413,4 @@ class DataReader:
 
 newSheet = DataReader()
 data = newSheet.readin()
-#newSheet.exportDFtoExcel(data, 1)
+newSheet.exportDFtoExcel(data, 1)
