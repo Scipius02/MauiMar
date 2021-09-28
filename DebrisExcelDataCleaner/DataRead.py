@@ -22,28 +22,29 @@ class DATAREAD:
         location = col1[0].split(" ")[1]
         weatherlist = findothercell.FINDOTHERCELL.findWeatherList(self, df_raw)
         date = df_raw.iloc[:,3][0]
-
-        for column in range(0,4):
-            for row in df_raw.index:
-                if row != 0 and row != 1:
-                    cell = cellformatter.CELLFORMATTER(df_raw.iloc[:,column][row])
-                    cellData = cell.camelCaseValidator(cell.inputCell)
-                    
-                    #print(cellData)
-                    if cellData == -1:
-                        pass
-                    elif len(cellData) == 1:
-                        item = cellData
-                        data.append([location, weatherlist, date, item, self.numInThirdCell(df_raw, column, row), f"column:{column} row:{row}"])
-                    elif len(cellData) == 2:
-                        item = cellData[0]
-                        itemQuantity = int(cellData[1])
-                        data.append([location, weatherlist, date, item, itemQuantity, f"column:{column} row:{row}"])
-                    else:
-                        if len(cellData) % 2 == 1:
-                            cellData.pop()
-                        for i in range(0, len(cellData), 2):
-                            data.append([location, weatherlist, date, cellData[i], int(cellData[i+1]), f"column:{column} row:{row}"])
+        """print(df_raw.shape)
+        print(len(df_raw.columns))
+        print(len(df_raw.index))"""
+        for column in range(len(df_raw.columns)):
+            for row in range(2, len(df_raw.index)-1):
+                cell = cellformatter.CELLFORMATTER(df_raw.iloc[:,column][row])
+                cellData = cell.camelCaseValidator(cell.inputCell)
+                
+                #print(cellData)
+                if cellData == -1:
+                    pass
+                elif len(cellData) == 1:
+                    item = cellData
+                    data.append([location, weatherlist, date, item, self.numInThirdCell(df_raw, column, row), f"column:{column} row:{row}"])
+                elif len(cellData) == 2:
+                    item = cellData[0]
+                    itemQuantity = int(cellData[1])
+                    data.append([location, weatherlist, date, item, itemQuantity, f"column:{column} row:{row}"])
+                else:
+                    if len(cellData) % 2 == 1:
+                        cellData.pop()
+                    for i in range(0, len(cellData), 2):
+                        data.append([location, weatherlist, date, cellData[i], int(cellData[i+1]), f"column:{column} row:{row}"])
         #print(data)
         return data
 
