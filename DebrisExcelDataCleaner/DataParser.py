@@ -4,7 +4,7 @@ from pathlib import Path
 import os
 import re
 
-class DataReader:
+class DATAREADER:
     def __init__(self):
         #self.path = Path.cwd() / '2020.11.27KaehuCleanupData.xlsx'
         self.script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
@@ -416,10 +416,105 @@ class DataReader:
             for jColumn in range(0,5):  #column0 = df_raw.iloc[:,0]
                 if row != 0 and row != 1: """
                     
+    def autoSort(self, inputCell, inputDF):
+        #tempList = [["FOAM fragments:  85", ""], ["Plastic fragments (hard)", 5000], ["Food wrappers:    58          Food packaging: 79"]]
+        flag = 0
+        tempItemName = ""
+        tempItemNumber = ""
+        newList = []
+
+        inputCell = inputCell.replace(" ", "")
+        for letter in inputCell:
+            if letter in "0123456789":
+                flag = 1
+                tempItemNumber += letter
+            else:
+                #print(letter)
+                if flag == 1:
+                    flag = 0
+                    newList.append([tempItemName, int(tempItemNumber)])
+                    tempItemName, tempItemNumber = "", ""
+                tempItemName += letter
+        if tempItemName != "" and tempItemNumber == "":
+            tempItemNumber = self.numInThirdCell(inputDF, inputCell.rowIndex, inputCell.location, inputCell.date, inputCell.weatherlist, inputCell.item)
+            newList.append([tempItemName, int(tempItemNumber)])
+            tempItemName, tempItemNumber = "", ""
+
+        print(newList)
+        return 
 
 #newSheet = DataReader()
 #data = newSheet.readin()
 #newSheet.exportDFtoExcel(data, 1)
+
+class NEWITEM:
+    def __init__(self, inputX, inputY, inputDF):
+        self.location = inputDF.iloc[:,inputX][]
+        self.weatherlist = 
+        self.date = 
+        self.type =
+        self.subType =
+        self.itemName =
+        self.itemQuantity =
+
+class ATTRIBUTEDEFINER:
+    def __init__(self, functionName):
+        self.functionName = functionName
+    
+    def findLocation(self, )
+
+    def findWeatherList(self, inputDF):
+        weather = inputDF.columns[1].split(" ")
+        for i, word in enumerate(weather):
+            if word not in ["windy", "sunny", "overcast", "low", "high"]:
+                weather.pop(i)
+        return weather
+    
+    def clearListsInLoL(self, inputList):   # findWeatherList gives a list. we want to clear subsublists
+        for subList in inputList:
+            for i, element in enumerate(subList):
+                if type(element) == list:
+                    for x in element:
+                        subList.insert(i, x)
+                    subList.pop(i+len(element))
+                    i += len(element)
+        return inputList
+
+    def category(self, item):
+        if item in ["Foam Fragment", "Food-Related Foam Fragment", "Insulation/Packaging", "Buoys", "Carpet Padding"]:
+            return "Foam"
+        elif item in ["Hard Plastic Fragment", "Plastic Film", "Food Wrappers", "Food Packaging", "Beverage Bottles", 
+            "Cleaning Bottles", "Oil Bottles", "Fishing Containers/Packaging", "Bottle/Container Caps, Lids", 
+            "Cigarettes/Filters/Cigars", "Cigar Tips", "Cigarette Lighters", "6 Pack Rings", 
+            "Bags", "Plastic Rope/Small Net Pieces", "Buoys, Floats", "Fishing Lures", "Line", 
+            "Cups", "Plates", "Plastic Utensils", "Straws", "Balloons", "Ribbons", "Sanitary", 
+            "Diapers", "First Aid", "Personal Care", "Toothbrushes", "Combs/Brushes", "SHARKASTICS", "Oyster spacer (small)", 
+            "Oyster spacer (large)", "Hagfish Traps", "Strapping Bands", "Weed Whacker Pieces", "Zipties", "Irrigation Tubing/Parts", 
+            "Toys (plastic only)", "Firecracker Remnants", "Duct Tape Pieces", "Golf Balls", "Christmas Tree Parts/Ornaments", 
+            "Pens/Markers/Pencils", "Melted Plastic", "Outdoor Sports Gear", "DVD/CD/Cassette/Records", 
+            "Spools", "Popsicle Sticks", "Shotgun Shells", "Lightsticks", "Linoleum", "Vinyl", "Gardening Pots/Trays", 
+            "Crates/Trays", "Large Drums/Jugs", "Shipping Tags", "Drug", "Personal Stuff", 
+            "Pet Stuff", "Misc. Household Items", ]:
+            return "Plastic"
+        elif item in ["Beer or Other Bottles", "Wine Bottles", "Jars", 
+            "Glass Fragments", "Fiberglass Pieces", "Lightbulbs", "Ceramics"]:
+            return "Glass"
+        elif item in ["Flip-flops/slippers", "Gloves", "Tyres", "Rubber Fragments", "Rubber Toys"]:
+            return "Rubber"
+        elif item in ["Cardboard Cartons", "Paper and Cardboard", "Paper Bags", "Lumber/Building Materials"]:
+            return "Processed Wood"
+        elif item in ["Clothing (including hats)", "Shoes (non-rubber)", "Gloves (non-rubber)", "Towels/Rags", "Fabric Pieces", 
+            "Carpet Pieces", "Masks", "Pillows", "Bedspread", "Burlap"]:
+            return "Cloth/Fabric"
+        elif item in ["Aluminum Cans", "Aerosol Cans", "Food Tins", "Roofing", "Metal Fragments", 
+            "Bottle Caps", "Batteries", "Fishing Pole/Gear", "Wire/Stakes/Pipes", "Foil", "Hydroflask"]:
+            return "Metal"
+        elif item == "N/A":
+            return "Large Debris/Noteworthy"
+        elif item == "Auto Parts":
+            return "UNKNOWN AUTO PARTS TYPE"
+
+    def subCategory(self, item):
 
 def autoSort():
     tempList = [["FOAM fragments:  85", ""], ["Plastic fragments (hard)", 5000], ["Food wrappers:    58          Food packaging: 79"]]
