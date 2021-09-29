@@ -3,7 +3,7 @@ class CLASSIFY:
         self.name = itemName
 
     def category(self, itemName):
-        print(itemName)
+        #print(itemName)
         categoryDict = {"Foam":["FoamFragments", "FoodRelated", "InsulationPackaging", "Buoys", "CarpetPadding"],
                         "Plastic":["PlasticFragmentsHard", "PlasticFragmentsFilm", "FoodWrappers", "FoodPackaging", "BeverageBottles", 
                             "CleaningBottles", "OilBottles", "FishingContainersPackaging", "BottleOrContainerCapsLids", 

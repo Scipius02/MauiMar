@@ -8,14 +8,15 @@ import findothercell
 import classifier
 
 class DATAREAD:
-    def __init__(self):
+    def __init__(self, sheet):
     #self.path = Path.cwd() / '2020.11.27KaehuCleanupData.xlsx'
         self.script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
         rel_path = "2020.11.27KaehuCleanupData.xlsx"        # this is the name of your file. make sure it's in the same folder as the .py script.
         self.abs_file_path = os.path.join(self.script_dir, rel_path)
+        self.sheet = sheet
 
     def readin(self):       # read in bad file, clean up, then spit out formatted excel.
-        df_raw = pandas.read_excel(self.abs_file_path,sheet_name = 98, usecols='A:F') #skiprows=1
+        df_raw = pandas.read_excel(self.abs_file_path,sheet_name = self.sheet, usecols='A:F') #skiprows=1, sheet_name can be int (number of tab) or None for all
         data = []
 
         col1 = df_raw.iloc[:,0]
@@ -71,6 +72,14 @@ class DATAREAD:
     def numInThirdCell(self, inputDF, columnIndex, rowIndex):
         return inputDF.iloc[:,columnIndex+2][rowIndex]
 
-newSheet = DATAREAD()
-data = newSheet.readin()
-newSheet.exportDFtoExcel(data, 4)
+masterData = []
+for i in range(80,89):
+    newSheet = DATAREAD(i)
+    data = newSheet.readin()
+    for row in data:
+        masterData.append(row)
+    
+newSheet.exportDFtoExcel(masterData, 2)
+
+#TODO: fix out of bounds error - this happens at 0, 80-89 (most of them, so this is important.)
+#fix weatherlist
