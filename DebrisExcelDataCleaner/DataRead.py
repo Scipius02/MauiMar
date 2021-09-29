@@ -5,6 +5,7 @@ import os
 import re
 import cellformatter
 import findothercell
+import classifier
 
 class DATAREAD:
     def __init__(self):
@@ -14,7 +15,7 @@ class DATAREAD:
         self.abs_file_path = os.path.join(self.script_dir, rel_path)
 
     def readin(self):       # read in bad file, clean up, then spit out formatted excel.
-        df_raw = pandas.read_excel(self.abs_file_path,sheet_name=98, usecols='A:F') #skiprows=1
+        df_raw = pandas.read_excel(self.abs_file_path,sheet_name = 98, usecols='A:F') #skiprows=1
         data = []
 
         col1 = df_raw.iloc[:,0]
@@ -22,9 +23,7 @@ class DATAREAD:
         location = col1[0].split(" ")[1]
         weatherlist = findothercell.FINDOTHERCELL.findWeatherList(self, df_raw)
         date = df_raw.iloc[:,3][0]
-        """print(df_raw.shape)
-        print(len(df_raw.columns))
-        print(len(df_raw.index))"""
+        
         for column in range(len(df_raw.columns)):
             for row in range(2, len(df_raw.index)-1):
                 cell = cellformatter.CELLFORMATTER(df_raw.iloc[:,column][row])
@@ -34,17 +33,24 @@ class DATAREAD:
                 if cellData == -1:
                     pass
                 elif len(cellData) == 1:
-                    item = cellData
-                    data.append([location, weatherlist, date, item, self.numInThirdCell(df_raw, column, row), f"column:{column} row:{row}"])
+                    newItem = classifier.CLASSIFY(cellData[0])
+                    cat = newItem.category(newItem.name)
+                    subcat = newItem.subCategory(newItem.name)
+                    data.append([location, weatherlist, date, cat, subcat, newItem.name, self.numInThirdCell(df_raw, column, row)])   #f"column:{column} row:{row}"
                 elif len(cellData) == 2:
-                    item = cellData[0]
+                    newItem = classifier.CLASSIFY(cellData[0])
+                    cat = newItem.category(newItem.name)
+                    subcat = newItem.subCategory(newItem.name)
                     itemQuantity = int(cellData[1])
-                    data.append([location, weatherlist, date, item, itemQuantity, f"column:{column} row:{row}"])
+                    data.append([location, weatherlist, date, cat, subcat, newItem.name, itemQuantity])    #f"column:{column} row:{row}"
                 else:
                     if len(cellData) % 2 == 1:
                         cellData.pop()
                     for i in range(0, len(cellData), 2):
-                        data.append([location, weatherlist, date, cellData[i], int(cellData[i+1]), f"column:{column} row:{row}"])
+                        newItem = classifier.CLASSIFY(cellData[i])
+                        cat = newItem.category(newItem.name)
+                        subcat = newItem.subCategory(newItem.name)
+                        data.append([location, weatherlist, date, cat, subcat, newItem.name, int(cellData[i+1])]) #f"column:{column} row:{row}"
         #print(data)
         return data
 
@@ -67,4 +73,4 @@ class DATAREAD:
 
 newSheet = DATAREAD()
 data = newSheet.readin()
-newSheet.exportDFtoExcel(data, 2)
+newSheet.exportDFtoExcel(data, 4)

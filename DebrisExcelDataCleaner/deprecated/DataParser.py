@@ -342,146 +342,104 @@ class DataReader:
                     i += len(element)
         return inputList
 
-    def properName(self, item):
+    """def properName(self, item):
         properNameDict =   {"FOAMfragments:":"Foam Fragment",
-"Plasticfragments(hard)":"Hard Plastic Fragment",
-"Plasticfragments(film)":"Plastic Film",
-"Foodwrappers:":"Food Wrappers",
-"Foodpackaging:":"Food Packaging",
-"Beveragebottles":"Beverage Bottles",
-"Cleaningbottles:":"Cleaning Bottles",
-"Fishingcontainers/packaging:":"Fishing Containers/Packaging
-",
-"Bottleorcontainercaps/lids":"Bottle/Container Caps, Lids
-",
-"Cigarettes/filters/cigars:":"Cigarettes/Filters/Cigars
-",
-"Cigarettelighters":"Cigarette Lighters
-",
-"6packrings":"6 Pack Rings
-",
-"Bags":"Bags
-",
-"Plasticrope/smallnetpieces":"Plastic Rope/Small Net Pieces
-",
-"Buoysandfloats":"Buoys, Floats
-",
-"Fishinglures":"Fishing Lures
-",
-"Cup:":"Cups
-",
-"Plasticutensils":"Plastic Utensils
-",
-"Straws":"Straws
-",
-"Balloons:(notmylar)":"Balloons
-",
-"Sanitary:":"Sanitary
-",
-"Diapers:":"Diapers
-",
-"1stAid:":"First Aid
-",
-"PersCare:":"Personal Care
-",
-"Toothbrushes":"Toothbrushes
-",
-"Combs/brushes":"Combs/Brushes
-",
-":^^SHARKASTICS^^:":"SHARKASTICS
-",
-"OysterspacerSmall":"Oyster spacer (small)
-",
-"OysterspacerLarge":"Oyster spacer (large)
-",
-"Hagfishtraps":"Hagfish Traps
-",
-"Strappingbands":"Strapping Bands
-",
-"Weedwhackerpieces":"Weed Whacker Pieces
-",
-"Zipties":"Zipties
-",
-"Irrigationtubing/parts(pvctoo)":"Irrigation Tubing/Parts",
-"Toys(plasticonly)":"Toys (plastic only)
-",
-"Firecrackerremnants":"Firecracker Remnants
-
-",
-"Ducttapepieces":"Duct Tape Pieces
-",
-"Golfballs":"Golf Balls
-",
-"Christmastreeparts/ornaments":"Christmas Tree Parts/Ornaments
-",
-"Pens/markers/pencils":"Pens/Markers/Pencils
-",
-"Meltedplastic":"Melted Plastic
-",
-"Snorkel/dive/surf/kayak/campinggear":"Outdoor Sports Gear
-",
-"DVD/cd/cassette/records":"DVD/CD/Cassette/Records
-",
-"Spools":"Spools
-",
-"PopsiclesticksbutNOTcountedhere(inSHARKastics)":"Popsicle Sticks
-",
-"Shotgunshells:":"Shotgun Shells
-",
-"Linoleum:":"Linoleum
-
-",
-"Gardeningpots/trays":"Gardening Pots/Trays
-",
-"Crates/trays:largedrums/jugs:":"",
-"Autoparts":"",
-"ShippingTags":"",
-"Drug:personalstuff:":"",
-"Misc.householditems":"",
-"food-related:":"",
-"oilbottles:":"",
-"cigartips:":"",
-"line:":"",
-"plates:":"",
-"ribbons:":"",
-"Lightsticks:":"",
-"Vinyl:":"",
-"petstuff:":"",
-"insulation/packaging:":"",
-"Beerorotherbottles:":"",
-"Jars":"",
-"Glassfragments":"",
-"Fiberglasspieces":"",
-"Other-lightbulb":"",
-"Other-ceramics":"",
-"Flip-flops/slippers":"",
-"Gloves":"",
-"Tires(2whole)":"",
-"Rubberfragments":"",
-"Autoparts":"",
-"Rubbertoys(tennisballs)":"",
-"Cardboardcartons":"",
-"Paperandcardboard":"",
-"Paperbags":"",
-"Lumber/buildingmaterial":"",
-"Clothing(includinghats)":"",
-"Shoes(nonrubber)":"",
-"Gloves(non-rubber)":"",
-"Towels/rags":"",
-"Fabricpieces":"",
-"Carpetpieces":"",
-"Masks":"",
-"Pillows":"",
-"Bedspread":"",
-"Aluminumcans:":"",
-"Aerosolcans:":"",
-"Metalfragments":"",
-"Autoparts":"",
-"Bottlecaps":"",
-"Batteries":"",
-"Fishingpole/gear":"",
-"Wire,stakes&pipes":"",
-"Foil":""}
+                            "Plasticfragments(hard)":"Hard Plastic Fragment",
+                            "Plasticfragments(film)":"Plastic Film",
+                            "Foodwrappers:":"Food Wrappers",
+                            "Foodpackaging:":"Food Packaging",
+                            "Beveragebottles":"Beverage Bottles",
+                            "Cleaningbottles:":"Cleaning Bottles",
+                            "Fishingcontainers/packaging:":"Fishing Containers/Packaging",
+                            "Bottleorcontainercaps/lids":"Bottle/Container Caps, Lids",
+                            "Cigarettes/filters/cigars:":"Cigarettes/Filters/Cigars",
+                            "Cigarettelighters":"Cigarette Lighters",
+                            "6packrings":"6 Pack Rings",
+                            "Bags":"Bags",
+                            "Plasticrope/smallnetpieces":"Plastic Rope/Small Net Pieces",
+                            "Buoysandfloats":"Buoys, Floats",
+                            "Fishinglures":"Fishing Lures",
+                            "Cup:":"Cups",
+                            "Plasticutensils":"Plastic Utensils",
+                            "Straws":"Straws",
+                            "Balloons:(notmylar)":"Balloons",
+                            "Sanitary:":"Sanitary",
+                            "Diapers:":"Diapers",
+                            "1stAid:":"First Aid",
+                            "PersCare:":"Personal Care",
+                            "Toothbrushes":"Toothbrushes",
+                            "Combs/brushes":"Combs/Brushes",
+                            ":^^SHARKASTICS^^:":"SHARKASTICS",
+                            "OysterspacerSmall":"Oyster spacer (small)",
+                            "OysterspacerLarge":"Oyster spacer (large)",
+                            "Hagfishtraps":"Hagfish Traps",
+                            "Strappingbands":"Strapping Bands",
+                            "Weedwhackerpieces":"Weed Whacker Pieces",
+                            "Zipties":"Zipties",
+                            "Irrigationtubing/parts(pvctoo)":"Irrigation Tubing/Parts",
+                            "Toys(plasticonly)":"Toys (plastic only)",
+                            "Firecrackerremnants":"Firecracker Remnants",
+                            "Ducttapepieces":"Duct Tape Pieces",
+                            "Golfballs":"Golf Balls",
+                            "Christmastreeparts/ornaments":"Christmas Tree Parts/Ornaments",
+                            "Pens/markers/pencils":"Pens/Markers/Pencils",
+                            "Meltedplastic":"Melted Plastic",
+                            "Snorkel/dive/surf/kayak/campinggear":"Outdoor Sports Gear",
+                            "DVD/cd/cassette/records":"DVD/CD/Cassette/Records",
+                            "Spools":"Spools",
+                            "PopsiclesticksbutNOTcountedhere(inSHARKastics)":"Popsicle Sticks",
+                            "Shotgunshells:":"Shotgun Shells",
+                            "Linoleum:":"Linoleum",
+                            "Gardeningpots/trays":"Gardening Pots/Trays",
+                            "Crates/trays:largedrums/jugs:":"",
+                            "Autoparts":"",
+                            "ShippingTags":"",
+                            "Drug:personalstuff:":"",
+                            "Misc.householditems":"",
+                            "food-related:":"",
+                            "oilbottles:":"",
+                            "cigartips:":"",
+                            "line:":"",
+                            "plates:":"",
+                            "ribbons:":"",
+                            "Lightsticks:":"",
+                            "Vinyl:":"",
+                            "petstuff:":"",
+                            "insulation/packaging:":"",
+                            "Beerorotherbottles:":"",
+                            "Jars":"",
+                            "Glassfragments":"",
+                            "Fiberglasspieces":"",
+                            "Other-lightbulb":"",
+                            "Other-ceramics":"",
+                            "Flip-flops/slippers":"",
+                            "Gloves":"",
+                            "Tires(2whole)":"",
+                            "Rubberfragments":"",
+                            "Autoparts":"",
+                            "Rubbertoys(tennisballs)":"",
+                            "Cardboardcartons":"",
+                            "Paperandcardboard":"",
+                            "Paperbags":"",
+                            "Lumber/buildingmaterial":"",
+                            "Clothing(includinghats)":"",
+                            "Shoes(nonrubber)":"",
+                            "Gloves(non-rubber)":"",
+                            "Towels/rags":"",
+                            "Fabricpieces":"",
+                            "Carpetpieces":"",
+                            "Masks":"",
+                            "Pillows":"",
+                            "Bedspread":"",
+                            "Aluminumcans:":"",
+                            "Aerosolcans:":"",
+                            "Metalfragments":"",
+                            "Autoparts":"",
+                            "Bottlecaps":"",
+                            "Batteries":"",
+                            "Fishingpole/gear":"",
+                            "Wire,stakes&pipes":"",
+                            "Foil":""}"""
 
 
     def category(self, item):
