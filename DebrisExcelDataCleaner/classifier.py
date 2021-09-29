@@ -4,7 +4,8 @@ class CLASSIFY:
 
     def category(self, itemName):
         #print(itemName)
-        categoryDict = {"Foam":["FoamFragments", "FoodRelated", "InsulationPackaging", "Buoys", "CarpetPadding"],
+        categoryDict = {"Foam":["FoamFragments", "FoodRelated", "InsulationPackaging", "Buoys", "CarpetPadding",
+                            "PlasticFragmentsFoamed"],                                                                          # redef between old and new
                         "Plastic":["PlasticFragmentsHard", "PlasticFragmentsFilm", "FoodWrappers", "FoodPackaging", "BeverageBottles", 
                             "CleaningBottles", "OilBottles", "FishingContainersPackaging", "BottleOrContainerCapsLids", 
                             "CigarettesFiltersCigars", "CigarTips", "CigaretteLighters", "PackRings", 
@@ -16,7 +17,10 @@ class CLASSIFY:
                             "PensMarkersPencils", "MeltedPlastic", "SnorkelDiveSurfKayakCampingGear", "DvdCdCassetteRecords", 
                             "Spools", "PopsicleSticks", "ShotgunShells", "Lightsticks", "Linoleum", "Vinyl", "GardeningPotsTrays", 
                             "CratesTrays", "LargeDrumsJugs", "ShippingTags", "Drug", "PersonalStuff", 
-                            "PetStuff", "MiscHouseholdItems"],
+                            "PetStuff", "MiscHouseholdItems", 
+                            "OtherJugsOrContainers", "BottleOrContainerCaps", "FishingLuresAndLine", "PersonalCareProducts",    # redef between old and new
+                            "IrrigationTubingParts", "PlasticToys", "FirecrackerRemnantsGreen", "PensMarkers",
+                            "SnorkelDiveSurfKayakGear", "DvdCdCassettes", ],
                         "Glass":["BeerOrOtherBottles", "WineBottles", "Jars", 
                             "GlassFragments", "FiberglassPieces", "OtherLightbulb", "OtherCeramics"],
                         "Rubber":["FlipFlopsSlippers", "Gloves", "Tires", "RubberFragments", "RubberToysTennisBalls"],
@@ -24,7 +28,8 @@ class CLASSIFY:
                         "Cloth/Fabric":["ClothingIncludingHats", "ShoesNonRubber", "GlovesNonRubber", "TowelsRags", "FabricPieces", 
                             "CarpetPieces", "Masks", "Pillows", "Bedspread", "Burlap"],
                         "Metal":["AluminumCans", "AerosolCans", "FoodTins", "Roofing", "MetalFragments", 
-                            "BottleCaps", "Batteries", "FishingPoleGear", "WireStakesPipes", "Foil", "Hydroflask"],
+                            "BottleCaps", "Batteries", "FishingPoleGear", "WireStakesPipes", "Foil", "Hydroflask",
+                            "AluminumTinCans", "OtherIron"],                                                                      # redef between old and new
                         "UNKNOWN AUTO PARTS TYPE":["AutoParts"]}
         for key, valueList in categoryDict.items():
             if itemName in valueList:

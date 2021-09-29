@@ -19,14 +19,20 @@ class DATAREAD:
         df_raw = pandas.read_excel(self.abs_file_path,sheet_name = self.sheet, usecols='A:F') #skiprows=1, sheet_name can be int (number of tab) or None for all
         data = []
 
+        #troubleshooting
+        self.shape = df_raw.shape
+
         col1 = df_raw.iloc[:,0]
 
         location = col1[0].split(" ")[1]
         weatherlist = findothercell.FINDOTHERCELL.findWeatherList(self, df_raw)
         date = df_raw.iloc[:,3][0]
         
+        maxRow = self.howManyRows(df_raw)
+        
+        # formatting shape of new dataframe, relying on helper functions in other classes.
         for column in range(len(df_raw.columns)):
-            for row in range(2, len(df_raw.index)-1):
+            for row in range(2, maxRow-1):
                 cell = cellformatter.CELLFORMATTER(df_raw.iloc[:,column][row])
                 cellData = cell.camelCaseValidator(cell.inputCell)
                 
@@ -55,6 +61,15 @@ class DATAREAD:
         #print(data)
         return data
 
+    #find how many rows we should check
+    def howManyRows(self, inputDF):
+        for row in inputDF.index:
+            try:
+                if re.search(r"grand total", inputDF.iloc[:,3][row], re.IGNORECASE):
+                    return row
+            except:
+                pass
+
     def exportDFtoExcel(self, listOfListsData, i):
         df_cleaned = pandas.DataFrame(self.clearListsInLoL(listOfListsData))
         df_cleaned.to_excel(os.path.join(self.script_dir,f"cleanedoutput{i}.xlsx"))
@@ -72,14 +87,26 @@ class DATAREAD:
     def numInThirdCell(self, inputDF, columnIndex, rowIndex):
         return inputDF.iloc[:,columnIndex+2][rowIndex]
 
-masterData = []
-for i in range(80,89):
-    newSheet = DATAREAD(i)
-    data = newSheet.readin()
-    for row in data:
-        masterData.append(row)
-    
-newSheet.exportDFtoExcel(masterData, 2)
+def runRangeOfTabs(start, end):
+    masterData = []
+    try:
+        for i in range(start,end):
+            newSheet = DATAREAD(i)
+            data = newSheet.readin()
+            for row in data:
+                masterData.append(row)
+    except:
+        print(f"failure at excel {i}")
+        print(newSheet.shape)
+    newSheet.exportDFtoExcel(masterData, 2)
 
-#TODO: fix out of bounds error - this happens at 0, 80-89 (most of them, so this is important.)
-#fix weatherlist
+def runSingleTab():
+    newSheet = DATAREAD(0)
+    data = newSheet.readin()
+    newSheet.exportDFtoExcel(data, 1)
+
+#TODO: fix out of bounds error - this happens at 32
+    # find cell that contains "grand total", grab its row, then bind the iterations to cap out under that row.
+    # note that fix doesn't account for accepted errors like 2014.07.27 where items in left column are lesser than right column
+
+runRangeOfTabs(0, 98)

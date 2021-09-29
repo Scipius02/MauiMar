@@ -9,7 +9,7 @@ class CELLFORMATTER:
         if type(inputCell) == str:
             if re.search(r"total+|width+|length+|^\#", inputCell, re.IGNORECASE):
                 return -1
-            elif re.match(r"\b(?:PLASTICS|GLASS|^Rubber$|Processed Wood|Cloth/Fabric|^Metal$)\b", inputCell):
+            elif re.match(r"\b(?:PLASTICS|GLASS|^Rubber$|Processed Wood|Cloth/Fabric|^Metal$|^Processed Lumber$)\b", inputCell):
                 return -1
             else:
                 #print(inputCell)

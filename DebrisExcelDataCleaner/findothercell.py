@@ -7,8 +7,11 @@ class FINDOTHERCELL:
     def findWeatherList(self, inputDF):
         weather = inputDF.columns[1].split(" ")
         for i, word in enumerate(weather):
-            if word not in ["windy", "sunny", "overcast", "low", "high"]:
+            if re.search(r"windy|sunny|overcast|low|high", word, re.IGNORECASE) == None:
                 weather.pop(i)
+        
+        while len(weather) < 3:
+            weather.append("X")
         return weather
 
     """def quantityInSameCell(self):
