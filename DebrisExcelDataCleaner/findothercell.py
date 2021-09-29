@@ -5,7 +5,12 @@ class FINDOTHERCELL:
         self.inputDF = inputDF
 
     def findWeatherList(self, inputDF):
-        weather = inputDF.columns[1].split(" ")
+        # sometimes weather is in same cell, sometimes in adjacent.
+        if inputDF.columns[2] != "":
+            weather = inputDF.columns[2].split(" ")
+        else:
+            weather = inputDF.columns[1].split(" ")
+
         for i, word in enumerate(weather):
             if re.search(r"windy|sunny|overcast|low|high", word, re.IGNORECASE) == None:
                 weather.pop(i)

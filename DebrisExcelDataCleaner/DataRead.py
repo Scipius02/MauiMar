@@ -24,9 +24,9 @@ class DATAREAD:
 
         col1 = df_raw.iloc[:,0]
 
-        location = col1[0].split(" ")[1]
-        weatherlist = findothercell.FINDOTHERCELL.findWeatherList(self, df_raw)
-        date = df_raw.iloc[:,3][0]
+        self.location = col1[0].split(" ")[1]
+        self.weatherlist = findothercell.FINDOTHERCELL.findWeatherList(self, df_raw)
+        self.date = df_raw.iloc[:,3][0]
         
         maxRow = self.howManyRows(df_raw)
         
@@ -35,21 +35,27 @@ class DATAREAD:
             for row in range(2, maxRow-1):
                 cell = cellformatter.CELLFORMATTER(df_raw.iloc[:,column][row])
                 cellData = cell.camelCaseValidator(cell.inputCell)
+
+                #troubleshooting
+                self.failureRow, self.failureColumn = row, column
                 
                 #print(cellData)
                 if cellData == -1:
                     pass
                 elif len(cellData) == 1:
-                    newItem = classifier.CLASSIFY(cellData[0])
-                    cat = newItem.category(newItem.name)
-                    subcat = newItem.subCategory(newItem.name)
-                    data.append([location, weatherlist, date, cat, subcat, newItem.name, self.numInThirdCell(df_raw, column, row)])   #f"column:{column} row:{row}"
+                    if column < self.shape[1] - 2:
+                        newItem = classifier.CLASSIFY(cellData[0])
+                        cat = newItem.category(newItem.name)
+                        subcat = newItem.subCategory(newItem.name)
+                        data.append([self.location, self.weatherlist, self.date, cat, subcat, newItem.name, self.numInThirdCell(df_raw, column, row)])   #f"column:{column} row:{row}"
+                    else:
+                        pass
                 elif len(cellData) == 2:
                     newItem = classifier.CLASSIFY(cellData[0])
                     cat = newItem.category(newItem.name)
                     subcat = newItem.subCategory(newItem.name)
                     itemQuantity = int(cellData[1])
-                    data.append([location, weatherlist, date, cat, subcat, newItem.name, itemQuantity])    #f"column:{column} row:{row}"
+                    data.append([self.location, self.weatherlist, self.date, cat, subcat, newItem.name, itemQuantity])    #f"column:{column} row:{row}"
                 else:
                     if len(cellData) % 2 == 1:
                         cellData.pop()
@@ -57,7 +63,7 @@ class DATAREAD:
                         newItem = classifier.CLASSIFY(cellData[i])
                         cat = newItem.category(newItem.name)
                         subcat = newItem.subCategory(newItem.name)
-                        data.append([location, weatherlist, date, cat, subcat, newItem.name, int(cellData[i+1])]) #f"column:{column} row:{row}"
+                        data.append([self.location, self.weatherlist, self.date, cat, subcat, newItem.name, int(cellData[i+1])]) #f"column:{column} row:{row}"
         #print(data)
         return data
 
@@ -95,9 +101,12 @@ def runRangeOfTabs(start, end):
             data = newSheet.readin()
             for row in data:
                 masterData.append(row)
-    except:
-        print(f"failure at excel {i}")
+    except Exception as ex:
+        print(f"failure at excel {i}, item:")
         print(newSheet.shape)
+        print(newSheet.date)
+        print(f"failure col: {newSheet.failureColumn}, failure row: {newSheet.failureRow}")
+        print(ex)
     newSheet.exportDFtoExcel(masterData, 2)
 
 def runSingleTab():
@@ -105,8 +114,6 @@ def runSingleTab():
     data = newSheet.readin()
     newSheet.exportDFtoExcel(data, 1)
 
-#TODO: fix out of bounds error - this happens at 32
-    # find cell that contains "grand total", grab its row, then bind the iterations to cap out under that row.
-    # note that fix doesn't account for accepted errors like 2014.07.27 where items in left column are lesser than right column
+# various errors when standard data entry is reversed. not very common, but lets say it is user error and fix the spreadsheet in the 1 place it happens.
 
 runRangeOfTabs(0, 98)

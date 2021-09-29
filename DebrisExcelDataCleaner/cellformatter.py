@@ -11,6 +11,8 @@ class CELLFORMATTER:
                 return -1
             elif re.match(r"\b(?:PLASTICS|GLASS|^Rubber$|Processed Wood|Cloth/Fabric|^Metal$|^Processed Lumber$)\b", inputCell):
                 return -1
+            elif re.match(r"1 but included above", inputCell):
+                return -1
             else:
                 #print(inputCell)
                 #print(type(inputCell))
